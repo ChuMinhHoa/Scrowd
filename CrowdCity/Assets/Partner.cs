@@ -32,7 +32,7 @@ public class Partner : MonoBehaviour
             myAgent.destination = myLeader.transform.position;
 
             float distance = Vector3.Distance(myLeader.transform.position, transform.position);
-            if (distance >= myAgent.stoppingDistance)
+            if (distance > myAgent.stoppingDistance)
             {
                 GetComponent<Animator>().SetBool("Idle", false);
             }
