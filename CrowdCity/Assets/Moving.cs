@@ -26,7 +26,6 @@ public class Moving : MonoBehaviour
         movement = Vector2.zero;
         MoveWithoutJS();
         JoyStickMove();
-        Debug.Log(movement);
         float angle = transform.localRotation.y;
         if (movement != Vector2.zero)
         {
@@ -37,6 +36,7 @@ public class Moving : MonoBehaviour
             angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
 
             transform.eulerAngles = new Vector3(0, -(angle - 90), 0);
+
 
         }
         else myAnim.SetBool("Idle", true);

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
+using TMPro;
 
 public class EnemyAI : Partner
 {
@@ -13,6 +15,9 @@ public class EnemyAI : Partner
 
     public delegate void OnPartnerChange();
     public OnPartnerChange onPartnerChangedCallback;
+    public bool changeColor;
+
+    [SerializeField] Image countView;
 
     private void Awake()
     {
@@ -44,10 +49,15 @@ public class EnemyAI : Partner
         newColor = new Color(r, g, b);
 
         flag = cManager.CheckColor(newColor);
-        if (flag)
+        if (flag )
         {
-            material.color = newColor;
-            cManager.AddColor(newColor);
+            if (changeColor)
+            {
+                material.color = newColor;
+                cManager.AddColor(newColor);
+                countView.color = newColor;
+            }
+            
         }
         else {
             ChangeMyColor();
@@ -96,7 +106,7 @@ public class EnemyAI : Partner
 
     void UpdatePartner()
     {
-        
+        GetComponent<ViewCount>().ChangeText(myPartners.Count);
         for (int i = 0; i < myPartners.Count; i++)
         {
             myPartners[i].GetComponent<Partner>().myPartners = myPartners;
@@ -172,7 +182,7 @@ public class EnemyAI : Partner
             _partner.GetComponent<Partner>().myLeader = gameObject;
 
             SkinnedMeshRenderer mySkin = GetComponentInChildren<SkinnedMeshRenderer>();
-            _partner.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = mySkin.material.color;
+            _partner.GetComponentInChildren<SkinnedMeshRenderer>().materials[0] = mySkin.material;
             _partner.GetComponent<Partner>().RemoveMeFromSpawn();
         }
     }
