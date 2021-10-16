@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 1748920299}
   - component: {fileID: 1748920298}
   - component: {fileID: 1748920297}
+  - component: {fileID: 1671437206542407428}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -310,6 +311,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1671437206542407428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748920295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad98e42583c96ab45bc85eda2992e858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 0}
+  cam: {fileID: 0}
 --- !u!1 &156729992075684182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1086,6 @@ GameObject:
   - component: {fileID: 866013914}
   - component: {fileID: 866013913}
   - component: {fileID: 866013916}
-  - component: {fileID: 1973176219}
   m_Layer: 10
   m_Name: T-Pose
   m_TagString: PlayerLeader
@@ -1173,19 +1187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPartners: []
   myMaterial: {fileID: 2100000, guid: 7ff5e3d121fbeb940970e0987dba8fa6, type: 2}
---- !u!114 &1973176219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2330893689609941377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad98e42583c96ab45bc85eda2992e858, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMesh: {fileID: 1075311738}
 --- !u!1 &2519755600289818021
 GameObject:
   m_ObjectHideFlags: 0

@@ -106,7 +106,7 @@ public class EnemyAI : Partner
 
     void UpdatePartner()
     {
-        GetComponent<ViewCount>().ChangeText(myPartners.Count);
+        GetComponentInChildren<ViewCount>().ChangeText(myPartners.Count);
         for (int i = 0; i < myPartners.Count; i++)
         {
             myPartners[i].GetComponent<Partner>().myPartners = myPartners;

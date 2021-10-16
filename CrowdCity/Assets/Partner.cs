@@ -142,6 +142,8 @@ public class Partner : Leader
                 if (target.myLeader!=null)
                 {
                     target.myLeader.GetComponent<EnemyAI>().myPartners.Remove(collision.gameObject);
+                    if (myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback != null)
+                        myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback.Invoke();
                 }
                 
                 ChangeToBeLeaderMind(collision.gameObject);
@@ -156,6 +158,8 @@ public class Partner : Leader
                 if (target.myLeader != null)
                 {
                     target.myLeader.GetComponent<PlayerLeader>().myPartners.Remove(collision.gameObject);
+                    if (target.myLeader.GetComponent<PlayerLeader>().onPartnerChangedCallback != null)
+                        target.myLeader.GetComponent<PlayerLeader>().onPartnerChangedCallback.Invoke();
                 }
 
                 ChangeToBeLeaderMind(collision.gameObject);
@@ -172,6 +176,8 @@ public class Partner : Leader
                 if (target.myLeader != null)
                 {
                     target.myLeader.GetComponent<EnemyAI>().myPartners.Remove(collision.gameObject);
+                    if (target.myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback != null)
+                        target.myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback.Invoke();
                 }
 
                 ChangeToBePlayerLeader(collision.gameObject);
@@ -209,7 +215,7 @@ public class Partner : Leader
         //PlayerLeader
         if (collision.gameObject.tag == "PlayerLeader" && gameObject.tag == "Enemy") {
             int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count;
-            Debug.Log(targetCount);
+            
             if (targetCount == 0)
             {
                 Destroy(collision.gameObject);

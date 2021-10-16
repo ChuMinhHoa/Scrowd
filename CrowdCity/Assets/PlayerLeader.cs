@@ -22,7 +22,7 @@ public class PlayerLeader : Leader
     }
 
     void UpdatePartner() {
-        GetComponent<ViewCount>().ChangeText(myPartners.Count);
+        GetComponentInChildren<ViewCount>().ChangeText(myPartners.Count);
         for (int i = 0; i < myPartners.Count; i++)
         {
             Partner partner = myPartners[i].GetComponent<Partner>();

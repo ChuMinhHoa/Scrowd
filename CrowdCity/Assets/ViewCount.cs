@@ -15,7 +15,6 @@ public class ViewCount : MonoBehaviour
 
     private void LateUpdate()
     {
-        RectTransform rext = GetComponentInChildren<Image>().rectTransform;
-        rext.LookAt(rext.localPosition + cam.forward);
+        transform.LookAt(transform.position + cam.forward);
     }
 }
