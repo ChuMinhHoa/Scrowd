@@ -3,41 +3,259 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Partner : MonoBehaviour
+public class Partner : Leader
 {
 
     public GameObject myLeader;
-    [SerializeField] NavMeshAgent myAgent;
+    public NavMeshAgent myAgent;
+    public float minRange, maxRange;
+    public float decisionTime, decisionTimeSetting;
+    public Vector3 movement;
+    public GameObject mySpawn;
+
+    public StageStatus status;
+
+    public Animator myanim;
 
     private void Awake()
     {
         myAgent = GetComponent<NavMeshAgent>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        myanim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        if (gameObject.tag=="AI")
+        if (gameObject.tag != "normal")
         {
             myAgent.destination = myLeader.transform.position;
 
-            float distance = Vector3.Distance(myLeader.transform.position, transform.position);
-            if (distance > myAgent.stoppingDistance)
-            {
-                GetComponent<Animator>().SetBool("Idle", false);
-            }
-            else GetComponent<Animator>().SetBool("Idle", true);
+            SetAnim(myLeader.transform.position);
+
+        }
+        else {
+            RandomMove();
         }
 
+
+        if (myLeader!=null)
+        {
+            GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = myLeader.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color;
+            if (myLeader.gameObject.tag == "Player")
+            {
+                myAgent.speed = 5f;
+            }
+            else myAgent.speed = 3.5f;
+        }
+
+        
     }
+
+    public void RandomMove() {
+        
+        if (decisionTime <= 0)
+        {
+            int decision = Random.Range(0, 2);
+
+            if (decision == 0)
+            {
+                //move
+
+                movement.x = RandomPosition(transform.position.x);
+                movement.z = RandomPosition(transform.position.z);
+
+            }
+            else {
+                movement = transform.position;
+            }
+
+            decisionTime = decisionTimeSetting;
+        }
+        else {
+            decisionTime -= Time.deltaTime;
+        }
+
+        myAgent.destination = movement;
+
+        SetAnim(movement);
+        status = StageStatus.RandomMove;
+       
+    }
+
+    public void SetAnim(Vector3 target) {
+        float distance = Vector3.Distance(target, transform.position);
+        if (distance > myAgent.stoppingDistance)
+        {
+            myanim.SetBool("Idle", false);
+        }
+        else { 
+            myanim.SetBool("Idle", true);
+            status = StageStatus.Idle;
+        }
+    }
+
+    public float RandomPosition(float posi) {
+        int decision = Random.Range(0, 2);
+
+        if (decision == 0)
+        {
+            return posi + Random.Range(minRange, maxRange);
+        }
+        else return posi - Random.Range(minRange, maxRange);
+    }
+
+    public void RemoveMeFromSpawn() {
+        if (mySpawn!=null)
+        {
+            if (mySpawn.GetComponent<Spawn>().normalESpawneds.IndexOf(gameObject) != -1)
+            {
+                mySpawn.GetComponent<Spawn>().normalESpawneds.Remove(gameObject);
+            }
+        }
+    }
+
+
+    public virtual void OnCollisionEnter(Collision collision)
+    {
+        //partner Enemy
+        if (collision.gameObject.tag=="normal" && gameObject.tag=="Enemy")
+        {
+            ChangeToBeLeaderMind(collision.gameObject);
+        }
+
+        if (collision.gameObject.tag=="AI" && gameObject.tag=="Enemy")
+        {
+
+            int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count; 
+            if (targetCount < myLeader.GetComponent<Leader>().myPartners.Count)
+            {
+                ChangeToBeLeaderMind(collision.gameObject);
+            }
+        }
+
+        if (collision.gameObject.tag == "Enemy" && gameObject.tag =="Enemy")
+        {
+
+            int targetCount = collision.gameObject.GetComponent<Partner>().myPartners.Count;
+            if (targetCount < myPartners.Count)
+            {
+                Partner target = collision.gameObject.GetComponent<Partner>();
+                if (target.myLeader!=null)
+                {
+                    target.myLeader.GetComponent<EnemyAI>().myPartners.Remove(collision.gameObject);
+                }
+                
+                ChangeToBeLeaderMind(collision.gameObject);
+            }
+        }
+
+        if (collision.gameObject.tag == "PlayerBro" && gameObject.tag == "Enemy") {
+            int targetCount = collision.gameObject.GetComponent<Partner>().myPartners.Count;
+            if (targetCount < myPartners.Count)
+            {
+                Partner target = collision.gameObject.GetComponent<Partner>();
+                if (target.myLeader != null)
+                {
+                    target.myLeader.GetComponent<PlayerLeader>().myPartners.Remove(collision.gameObject);
+                }
+
+                ChangeToBeLeaderMind(collision.gameObject);
+            }
+        }
+
+        //partnerPlayer
+        if (collision.gameObject.tag=="Enemy" && gameObject.tag=="PlayerBro")
+        {
+            int targetCount = collision.gameObject.GetComponent<Partner>().myPartners.Count;
+            if (targetCount < myPartners.Count)
+            {
+                Partner target = collision.gameObject.GetComponent<Partner>();
+                if (target.myLeader != null)
+                {
+                    target.myLeader.GetComponent<EnemyAI>().myPartners.Remove(collision.gameObject);
+                }
+
+                ChangeToBePlayerLeader(collision.gameObject);
+            }
+        }
+
+        if (collision.gameObject.tag=="normal" && gameObject.tag=="PlayerBro")
+        {
+            int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count;
+            if (targetCount < myLeader.GetComponent<Leader>().myPartners.Count)
+            {
+                ChangeToBePlayerLeader(collision.gameObject);
+            }
+        }
+
+
+        //EnemyLeader
+        if (collision.gameObject.tag == "EnemyLeader" && gameObject.tag == "PlayerBro") {
+            int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count;
+            if (targetCount == 0)
+            {
+                Destroy(collision.gameObject);
+            }
+
+        }
+        if (collision.gameObject.tag == "EnemyLeader" && gameObject.tag == "Enemy") {
+            int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count;
+            if (targetCount == 0)
+            {
+                Destroy(collision.gameObject);
+            }
+
+        }
+
+        //PlayerLeader
+        if (collision.gameObject.tag == "PlayerLeader" && gameObject.tag == "Enemy") {
+            int targetCount = collision.gameObject.GetComponent<Leader>().myPartners.Count;
+            Debug.Log(targetCount);
+            if (targetCount == 0)
+            {
+                Destroy(collision.gameObject);
+            }
+        }
+
+
+    }
+
+
+    void ChangeToBePlayerLeader(GameObject _partner) {
+        List<GameObject> myLeaderPartner = myLeader.GetComponent<Leader>().myPartners;
+        if (myLeaderPartner.IndexOf(_partner) == -1)
+        {
+            myLeader.GetComponent<Leader>().myPartners.Add(_partner);
+
+            if (myLeader.GetComponent<PlayerLeader>().onPartnerChangedCallback != null)
+                myLeader.GetComponent<PlayerLeader>().onPartnerChangedCallback.Invoke();
+
+            _partner.tag = "PlayerBro";
+            _partner.layer = 9;
+            _partner.GetComponent<Partner>().myLeader = myLeader;
+            _partner.GetComponent<Partner>().RemoveMeFromSpawn();
+        }
+    }
+
+
+    void ChangeToBeLeaderMind(GameObject _partner) {
+        List<GameObject> myLeaderPartner = myLeader.GetComponent<Leader>().myPartners;
+        if (myLeaderPartner.IndexOf(_partner) == -1)
+        {
+            myLeader.GetComponent<Leader>().myPartners.Add(_partner);
+
+            if(myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback!=null)
+                myLeader.GetComponent<EnemyAI>().onPartnerChangedCallback.Invoke();
+
+            _partner.tag = "Enemy";
+            _partner.layer = 7;
+            _partner.GetComponent<Partner>().myLeader = myLeader;
+            _partner.GetComponent<Partner>().RemoveMeFromSpawn();
+        }
+    }
+
+   
+
+    
 }
+public enum StageStatus { Idle, Gopartner, GoCombat, RandomMove }
+

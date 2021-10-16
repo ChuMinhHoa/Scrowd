@@ -6,18 +6,22 @@ TagManager:
   tags:
   - normal
   - AI
+  - Enemy
+  - EnemyLeader
+  - PlayerBro
+  - PlayerLeader
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - AI
+  - Enemy
+  - EnemyLeader
+  - PlayerBro
+  - PlayerLeader
   - 
   - 
   - 

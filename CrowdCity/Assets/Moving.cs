@@ -13,11 +13,6 @@ public class Moving : MonoBehaviour
         myBody = GetComponent<Rigidbody>();
         myAnim = GetComponent<Animator>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -30,8 +25,8 @@ public class Moving : MonoBehaviour
         float angle = transform.localRotation.y;
         if (movement!=Vector2.zero)
         {
-
-            myBody.velocity = new Vector3(movement.x * speed * Time.deltaTime, 0, movement.y * Time.deltaTime * speed);
+            movement = movement.normalized;
+            myBody.velocity = new Vector3(movement.x * speed * Time.deltaTime, 0, movement.y * speed * Time.deltaTime);
             myAnim.SetBool("Idle",false);
             
             angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
