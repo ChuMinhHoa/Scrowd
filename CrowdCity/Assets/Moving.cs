@@ -8,6 +8,10 @@ public class Moving : MonoBehaviour
     Animator myAnim;
     Rigidbody myBody;
 
+    Vector2 movement;
+
+    public Joystick js;
+
     private void Awake()
     {
         myBody = GetComponent<Rigidbody>();
@@ -19,16 +23,17 @@ public class Moving : MonoBehaviour
     {
 
 
-        Vector2 movement = Vector2.zero;
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        movement = Vector2.zero;
+        MoveWithoutJS();
+        JoyStickMove();
+        Debug.Log(movement);
         float angle = transform.localRotation.y;
-        if (movement!=Vector2.zero)
+        if (movement != Vector2.zero)
         {
             movement = movement.normalized;
             myBody.velocity = new Vector3(movement.x * speed * Time.deltaTime, 0, movement.y * speed * Time.deltaTime);
-            myAnim.SetBool("Idle",false);
-            
+            myAnim.SetBool("Idle", false);
+
             angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
 
             transform.eulerAngles = new Vector3(0, -(angle - 90), 0);
@@ -36,8 +41,28 @@ public class Moving : MonoBehaviour
         }
         else myAnim.SetBool("Idle", true);
 
-        
-        
-        
+
+
+
+    }
+
+    void MoveWithoutJS() {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        if (x != 0 || y != 0)
+        {
+            movement.x = x;
+            movement.y = y;
+        }
+    }
+
+    void JoyStickMove() {
+        float x = js.Horizontal;
+        float y = js.Vertical;
+        if (x != 0 || y != 0)
+        {
+            movement.x = x;
+            movement.y = y;
+        }
     }
 }

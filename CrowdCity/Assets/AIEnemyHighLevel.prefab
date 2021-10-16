@@ -1274,7 +1274,7 @@ MonoBehaviour:
   viewFarPartner: 15
   whatIsCombat:
     serializedVersion: 2
-    m_Bits: 392
+    m_Bits: 1408
   whatIsPartner:
     serializedVersion: 2
     m_Bits: 64
