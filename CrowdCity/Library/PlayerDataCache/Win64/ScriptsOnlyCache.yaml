@@ -2,18 +2,24 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - ColorManager
+    - DynamicJoystick
     - EnemyHighLevel
-    - FloatingJoystick
+    - FloatingTag
+    - Manager
     - Moving
     - Partner
     - PlayerLeader
+    - RankManager
+    - RankView
     - Spawn
-    - ViewCount
     Cinemachine.dll:
     - Cinemachine.CinemachineBrain
     - Cinemachine.CinemachineFramingTransposer
     - Cinemachine.CinemachinePipeline
     - Cinemachine.CinemachineVirtualCamera
+    Unity.ProBuilder.Editor.dll:
+    - UnityEditor.ProBuilder.EditorToolbar
+    - UnityEditor.ProBuilder.ProBuilderEditor
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
@@ -35,9 +41,13 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.GridLayoutGroup
     - UnityEngine.UI.Image
+    - UnityEngine.UI.LayoutElement
+    - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/New Scene.unity:
     - Class: 1
@@ -83,50 +93,66 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1512}
     - Class: 114
-      Script: {instanceID: 1858}
+      Script: {instanceID: 1528}
     - Class: 114
-      Script: {instanceID: 2188}
+      Script: {instanceID: 1630}
     - Class: 114
-      Script: {instanceID: 2326}
+      Script: {instanceID: 1720}
     - Class: 114
-      Script: {instanceID: 2516}
+      Script: {instanceID: 1748}
     - Class: 114
-      Script: {instanceID: 2556}
+      Script: {instanceID: 1864}
     - Class: 114
-      Script: {instanceID: 2628}
+      Script: {instanceID: 2194}
     - Class: 114
-      Script: {instanceID: 2694}
+      Script: {instanceID: 2206}
     - Class: 114
-      Script: {instanceID: 2742}
+      Script: {instanceID: 2520}
     - Class: 114
-      Script: {instanceID: 2766}
+      Script: {instanceID: 2560}
     - Class: 114
-      Script: {instanceID: 2890}
+      Script: {instanceID: 2632}
     - Class: 114
-      Script: {instanceID: 3112}
+      Script: {instanceID: 2698}
     - Class: 114
-      Script: {instanceID: 3124}
+      Script: {instanceID: 2746}
     - Class: 114
-      Script: {instanceID: 3556}
+      Script: {instanceID: 2770}
     - Class: 114
-      Script: {instanceID: 3654}
+      Script: {instanceID: 2894}
     - Class: 114
-      Script: {instanceID: 3706}
+      Script: {instanceID: 3116}
     - Class: 114
-      Script: {instanceID: 3910}
+      Script: {instanceID: 3128}
     - Class: 114
-      Script: {instanceID: 4118}
+      Script: {instanceID: 3182}
     - Class: 114
-      Script: {instanceID: 4454}
+      Script: {instanceID: 3246}
     - Class: 114
-      Script: {instanceID: 4772}
+      Script: {instanceID: 3562}
     - Class: 114
-      Script: {instanceID: 5264}
+      Script: {instanceID: 3660}
     - Class: 114
-      Script: {instanceID: 5308}
+      Script: {instanceID: 3712}
+    - Class: 114
+      Script: {instanceID: 4124}
+    - Class: 114
+      Script: {instanceID: 4460}
+    - Class: 114
+      Script: {instanceID: 4778}
+    - Class: 114
+      Script: {instanceID: 5112}
+    - Class: 114
+      Script: {instanceID: 5212}
+    - Class: 114
+      Script: {instanceID: 5272}
+    - Class: 114
+      Script: {instanceID: 5316}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
+      Script: {instanceID: 0}
+    - Class: 135
       Script: {instanceID: 0}
     - Class: 136
       Script: {instanceID: 0}
@@ -197,6 +223,12 @@ ScriptsOnlyBuild:
     className: TMP_InputField
   - hash:
       serializedVersion: 2
+      Hash: e7ef0aece65824b7feddf4e7070327a0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RankManager
+  - hash:
+      serializedVersion: 2
       Hash: 9c7c87712e298256d276eb96e02a57b1
     assemblyName: Unity.ProBuilder.dll
     namespaceName: UnityEngine.ProBuilder
@@ -231,6 +263,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Selectable
+  - hash:
+      serializedVersion: 2
+      Hash: e54a9082aa9abf468e022528839f791f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RankView
   - hash:
       serializedVersion: 2
       Hash: ae20da6493a48ec6a8af7899dcb31507
@@ -333,12 +371,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner
     className: PlaymodeTestsController
-  - hash:
-      serializedVersion: 2
-      Hash: 1d0eeaf4c49f1e8c7c932584e7a5c31a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ViewCount
   - hash:
       serializedVersion: 2
       Hash: c1d728126ff1918728036c59106d32b2
@@ -509,7 +541,7 @@ ScriptsOnlyBuild:
     className: Cinemachine3rdPersonFollow
   - hash:
       serializedVersion: 2
-      Hash: 5951ef6c519b1587d6f622aa1c891838
+      Hash: f1fe5fe402b2177270c7b7116a5d7ce6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Moving
@@ -543,6 +575,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
+  - hash:
+      serializedVersion: 2
+      Hash: c7a6c399964c45eb72649337e3a68b8a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Manager
   - hash:
       serializedVersion: 2
       Hash: 23066ceca838af0cf02e00e3cf5155c1
@@ -617,7 +655,7 @@ ScriptsOnlyBuild:
     className: CinemachinePixelPerfect
   - hash:
       serializedVersion: 2
-      Hash: 131acd066438c990554a34c26d85f330
+      Hash: c1b7cc0d9196fc41436a8e5e50084d25
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerLeader
@@ -773,7 +811,7 @@ ScriptsOnlyBuild:
     className: CinemachineTrackedDolly
   - hash:
       serializedVersion: 2
-      Hash: 8c6a9213b77793d96341f3c31eec4e2c
+      Hash: 0c8901eae0ede809748c9f918b218358
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Partner
@@ -881,7 +919,7 @@ ScriptsOnlyBuild:
     className: CinemachineTargetGroup
   - hash:
       serializedVersion: 2
-      Hash: fb2919d868ec21088ee06f09d21467dd
+      Hash: 48bf6da20ad4e935de56a5bc95b62f5f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemyAI
@@ -935,6 +973,12 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
+      Hash: f010fd95fde2aa5a914a9c0253135ed3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FloatingTag
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -983,7 +1027,7 @@ ScriptsOnlyBuild:
     className: CinemachineBlendListCamera
   - hash:
       serializedVersion: 2
-      Hash: 5f3ddeb905e754795e3fcae9328e5a9e
+      Hash: 644dc255ef53eec34e137388d45abaee
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemyHighLevel
